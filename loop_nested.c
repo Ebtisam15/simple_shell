@@ -17,7 +17,7 @@ int hsh(mes_t *mes, char **ave)
 		clear_mes(mes);
 		if (active(mes))
 			_instr("$ ");
-		_sprint(BUF_FLUSH);
+		_sprint(M_FLUSH);
 		nr = line_without_new(mes);
 		if (nr != -1)
 		{

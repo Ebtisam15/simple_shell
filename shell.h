@@ -17,9 +17,9 @@
 #define M_FLUSH      1
 
 #define CMD_NORMAL 0	
-#define CMD_OR		
-#define CMD_AND		
-#define CMD_CHAIN
+#define CMD_OR	1	
+#define CMD_AND	2	
+#define CMD_CHAIN 3
 
 #define CONVERT_LOWERCASE 1	
 #define CONVERT_UNSIGNED  2	
@@ -27,7 +27,7 @@
 #define USEget_next_line 1
 #define USE_STRTOK  2
 
-#define HISTOR_FILE  1
+#define HISTOR_FILE  ".our_history_file"   
 #define HISTOR_MAX	4096
 
 extern char **environm;

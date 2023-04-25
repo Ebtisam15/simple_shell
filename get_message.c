@@ -68,6 +68,6 @@ void free_mes(mes_t *mes, int fall)
 		bfrees((void **)mes->cmd_m);
 		if (mes->readfd > 2)
 			close(mes->readfd);
-		_putchar(BUF_FLUSH);
+		_putchar(M_FLUSH);
 	}
 }

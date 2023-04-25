@@ -11,14 +11,14 @@
 int _sprint(char k)
 {
 	static int l;
-	static char m[WRITE_BUF_SIZE];
+	static char m[WRITE_M_SIZE];
 
-	if (k == BUF_FLUSH || l >= WRITE_BUF_SIZE)
+	if (k == M_FLUSH || l >= WRITE_M_SIZE)
 	{
 		write(2, m, l);
 		l = 0;
 	}
-	if (k != BUF_FLUSH)
+	if (k != M_FLUSH)
 		m[l++] = k;
 	return (1);
 }
@@ -55,14 +55,14 @@ void sprint(char *h)
 int _sprintfd(char k, int fd)
 {
 	static int l;
-	static char m[WRITE_BUF_SIZE];
+	static char m[WRITE_M_SIZE];
 
-	if (k == BUF_FLUSH || l >= WRITE_BUF_SIZE)
+	if (k == M_FLUSH || l >= WRITE_M_SIZE)
 	{
 		write(fd, m, l);
 		l = 0;
 	}
-	if (k != BUF_FLUSH)
+	if (k != M_FLUSH)
 		m[l++] = k;
 	return (1);
 }

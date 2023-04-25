@@ -126,7 +126,7 @@ int replace_var(mes_t *mes)
 					dup_string(confun(getpid(), 10, 0)));
 			continue;
 		}
-		anode = return_node_with(mes->env, &mes->argv[l][1], '=');
+		anode = return_node_with(mes->envi, &mes->argv[l][1], '=');
 		if (anode)
 		{
 			re_string(&(mes->argv[l]),
@@ -152,4 +152,3 @@ int re_string(char **olds, char *news)
 	*olds = news;
 	return (1);
 }
-

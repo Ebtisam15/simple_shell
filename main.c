@@ -30,7 +30,7 @@ int main(int acount, char **ave)
 				sprint(": 0: Can't open ");
 				sprint(ave[1]);
 				_sprint('\n');
-				_sprint(BUF_FLUSH);
+				_sprint(M_FLUSH);
 				exit(127);
 			}
 			return (EXIT_FAILURE);
