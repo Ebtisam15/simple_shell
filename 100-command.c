@@ -1,5 +1,5 @@
 #include "shell.h"
-
+#include "string.h"
 /**
  * exe_cmd - determines if a file is an executable command
  * @mes: the mes struct

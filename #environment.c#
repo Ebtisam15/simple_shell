@@ -82,10 +82,10 @@ int calculate_env_list(mes_t *mes)
 {
 	lists_t *anode = NULL;
 	size_t l;
-	
+	char **environm;
 
 	for (l = 0; environm[l]; l++)
-	  node_at_end(&anode, environm[l], 0);
+		node_at_end(&anode, environm[l], 0);
 	mes->envi = anode;
 	return (0);
 }

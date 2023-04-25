@@ -16,18 +16,18 @@
 #define WRITE_M_SIZE 1024
 #define M_FLUSH      1
 
-#define CMD_NORMAL 0	
-#define CMD_OR	1	
-#define CMD_AND	2	
+#define CMD_NORMAL 0
+#define CMD_OR	1
+#define CMD_AND	2
 #define CMD_CHAIN 3
 
-#define CONVERT_LOWERCASE 1	
-#define CONVERT_UNSIGNED  2	
+#define CONVERT_LOWERCASE 1
+#define CONVERT_UNSIGNED  2
 
 #define USEget_next_line 1
 #define USE_STRTOK  2
 
-#define HISTOR_FILE  ".our_history_file"   
+#define HISTOR_FILE ".our_history_file"
 #define HISTOR_MAX	4096
 
 extern char **environm;
@@ -193,7 +193,7 @@ void run_cmd(mes_t *mes);
 
 int _strcmp(char *, char *);
 char *_strcat(char *, char *);
-int _strlen(char*);
+int _strlen(char *);
 char *_strcpy(char *, char *);
 
 lists_t *add_anode(lists_t **nhead, const char *stri, int a);
@@ -206,6 +206,6 @@ int bfrees(void **ptri);
 
 char *mem_cbytes(char *a, char nb, unsigned int ab);
 void ffrees(char **sos);
-void *_reallocblock(void *ptri, unsigned int old_bsize, unsigned int new_bsize);
+void *_reallocblock(void *ptri, unsigned int old_bsiz, unsigned int new_bsize);
 
 #endif
