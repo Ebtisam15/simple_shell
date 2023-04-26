@@ -45,7 +45,7 @@ int alphabet(int a)
  * _atoi - converts a string to an integer
  * @a: string to be converted
  *
- * Return: the int converted from the string
+ * Return: the int converted from the string, and 0 if unavailable 
  */
 int _atoi(char *a)
 {

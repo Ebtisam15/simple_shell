@@ -1,6 +1,26 @@
 #include "shell.h"
 
 /**
+ * sprint - prints an input string
+ * @h: the string to be printed
+ *
+ * Return: Nothing
+ */
+
+void sprint(char *h)
+{
+	int j = 0;
+
+	if (!h)
+		return;
+	while (h[j] != '\0')
+	{
+		_sprint(h[j]);
+		j++;
+	}
+}
+
+/**
  * _sprint - writes the character k to stderr
  * @k: The character to print
  *
@@ -21,26 +41,6 @@ int _sprint(char k)
 	if (k != M_FLUSH)
 		m[l++] = k;
 	return (1);
-}
-
-/**
- * sprint - prints an input string
- * @h: the string to be printed
- *
- * Return: Nothing
- */
-
-void sprint(char *h)
-{
-	int j = 0;
-
-	if (!h)
-		return;
-	while (h[j] != '\0')
-	{
-		_sprint(h[j]);
-		j++;
-	}
 }
 
 /**
