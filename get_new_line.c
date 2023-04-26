@@ -73,7 +73,7 @@ ssize_t line_without_new(mes_t *mes)
 		}
 
 		l = k + 1;
-		if(l >= ladd)
+		if (l >= ladd)
 		{
 			l = ladd = 0;
 			mes->cmd_m_type = CMD_NORMAL;
@@ -103,7 +103,7 @@ ssize_t read_m(mes_t *mes, char *m, size_t *l)
 		return (0);
 	c = read(mes->readfd, m, READ_M_SIZE);
 	if (c >= 0)
-		* l = c;
+		*l = c;
 	return (c);
 }
 
@@ -149,7 +149,7 @@ int get_next_line(mes_t *mes, char **ptri, size_t *ptr_m)
 	pm = new_pm;
 
 	if (ptr_m)
-		* ptr_m = a;
+		*ptr_m = a;
 	*ptri = pm;
 	return (a);
 }

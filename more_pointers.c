@@ -52,7 +52,7 @@ int _strlen(char *a)
 {
 	int ladd = 0;
 
-	if(!a)
+	if (!a)
 		return (0);
 
 	while (*a != '\0')

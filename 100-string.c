@@ -17,7 +17,7 @@ char *needle_start_with(const char *hays, const char *needs)
 
 /**
  * dup_string - duplicates a string
- * @str: the string to duplicate
+ * @stri: the string to duplicate
  *
  * Return: pointer to the duplicated string
  */
@@ -40,7 +40,7 @@ char *dup_string(const char *stri)
 
 /**
  * _instr - prints an input string
- * @str: the string to be printed
+ * @stri: the string to be printed
  *
  * Return: Nothing
  */
@@ -59,7 +59,7 @@ void _instr(char *stri)
 
 /**
  * _putchar - writes the character c to stdout
- * @c: The character to print
+ * @d: The character to print
  *
  * Return: On success 1.
  * On error, -1 is returned, and errno is set appropriately.

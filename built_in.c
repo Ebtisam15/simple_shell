@@ -13,7 +13,7 @@ int historylist(mes_t *mes)
 }
 
 /**
- * alias_string - sets alias to string
+ * unalias_string - sets alias to string
  * @mes: parameter struct
  * @stri: the string alias
  *
