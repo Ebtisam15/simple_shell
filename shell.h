@@ -16,17 +16,15 @@
 #define WRITE_M_SIZE 1024
 #define M_FLUSH      1
 
-<<<<<<< HEAD
-#define CMD_NORMAL 0	
-#define CMD_ORM	1	
-#define CMD_ANDM	2	
+#define CMD_NORMAL 0
+#define CMD_ORM	1
+#define CMD_ANDM	2
 #define CMD_CHAIM 3
-=======
+
 #define CMD_NORMAL 0
 #define CMD_OR	1
 #define CMD_AND	2
 #define CMD_CHAIN 3
->>>>>>> 6b9b378856b11d51d80ed5bc3ac3660c84c93874
 
 #define CONVERT_LOWERCASE 1
 #define CONVERT_UNSIGNED  2
