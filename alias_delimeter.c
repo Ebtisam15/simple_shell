@@ -16,18 +16,18 @@ int chain_delim(mes_t *mes, char *m, size_t *pm)
 	{
 		m[w] = 0;
 		w++;
-		mes->cmd_m_type = CMD_OR;
+		mes->cmd_m_type = CMD_ORM;
 	}
 	else if (m[w] == '&' && m[w + 1] == '&')
 	{
 		m[w] = 0;
 		w++;
-		mes->cmd_m_type = CMD_AND;
+		mes->cmd_m_type = CMD_ANDM;
 	}
 	else if (m[w] == ';')
 	{
 		m[w] = 0;
-		mes->cmd_m_type = CMD_CHAIN;
+		mes->cmd_m_type = CMD_CHAIM;
 	}
 	else
 		return (0);
@@ -49,7 +49,7 @@ void chain_status(mes_t *mes, char *m, size_t *pm, size_t l, size_t lm)
 {
 	size_t w = *pm;
 
-	if (mes->cmd_m_type == CMD_AND)
+	if (mes->cmd_m_type == CMD_ANDM)
 	{
 		if (mes->status)
 		{
@@ -57,7 +57,7 @@ void chain_status(mes_t *mes, char *m, size_t *pm, size_t l, size_t lm)
 			w = lm;
 		}
 	}
-	if (mes->cmd_m_type == CMD_OR)
+	if (mes->cmd_m_type == CMD_ORM)
 	{
 		if (!mes->status)
 		{

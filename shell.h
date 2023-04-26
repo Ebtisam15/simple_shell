@@ -17,9 +17,9 @@
 #define M_FLUSH      1
 
 #define CMD_NORMAL 0	
-#define CMD_OR	1	
-#define CMD_AND	2	
-#define CMD_CHAIN 3
+#define CMD_ORM	1	
+#define CMD_ANDM	2	
+#define CMD_CHAIM 3
 
 #define CONVERT_LOWERCASE 1	
 #define CONVERT_UNSIGNED  2	
@@ -196,11 +196,11 @@ char *_strcat(char *, char *);
 int _strlen(char*);
 char *_strcpy(char *, char *);
 
-lists_t *add_anode(lists_t **nhead, const char *stri, int a);
-lists_t *node_at_end(lists_t **nhead, const char *stri, int a);
-size_t print_str_ele(const lists_t *nh);
-int node_deletion(lists_t **nhead, unsigned int nindex);
-void free_lists(lists_t **nhead_ptr);
+lists_t *add_anode(lists_t **, const char *, int);
+lists_t *node_at_end(lists_t **, const char *, int);
+size_t print_str_ele(const lists_t *);
+int node_deletion(lists_t **, unsigned int);
+void free_lists(lists_t **);
 
 int bfrees(void **ptri);
 
