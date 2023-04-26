@@ -1,13 +1,13 @@
 #include "shell.h"
 
 /**
- * active - returns true if shell is active
+ * _active - returns true if shell is active
  * @mes: struct address
  *
  * Return: 1 if active mode, 0 otherwise
  */
 
-int active(mes_t *mes)
+int _active(mes_t *mes)
 {
 	return (isatty(STDIN_FILENO) && mes->readfd <= 2);
 }
@@ -49,37 +49,28 @@ int alphabet(int a)
  */
 int _atoi(char *a)
 {
-	int b, c, d, e, g;
-	unsigned int f;
+	int l, mark = 1, tag = 0, product;
+	unsigned int outcome = 0;
 
-	b = 0;
-	c = 0;
-	d = 0;
-	e = 0;
-	f = 0;
-	g = 0;
-
-	while (a[e] != '\0')
-		e++;
-	while (b < e && f == 0)
+	for (l = 0; a[l] != '\0' && tag != 2; l++)
 	{
-		if (a[b] == '-')
-			++c;
-		if (a[b] >= '0' && a[b] <= '9')
-		{
-			g = a[b] - '0';
-			if (c % 2)
-				g = -g;
-			d = d * 10 + g;
-			f = 1;
-			if (a[b + 1] < '0' || a[b + 1] > '9')
-				break;
-			f = 0;
-		}
-		b++;
-	}
-	if (f == 0)
-		return (0);
+		if (a[l] == '-')
+			mark *= -1;
 
-	return (d);
+		if (a[l] >= '0' && a[l] >= '9')
+		{
+			tag = 1;
+			outcome *= 10;
+			outcome += (a[l] - '0');
+		}
+		else if (tag == 1)
+			tag = 2;
+	}
+
+	if (mark == -1)
+		product = -outcome;
+	else
+		product = outcome;
+
+	return (product);
 }
