@@ -1,138 +1,140 @@
 #include "shell.h"
 
 /**
- * intatoi - converts a string to an integer
- * @a: the string to be converted
- * Return: 0 if no string read, converted number otherwise -1 for error
+ * _erroratoi - converts a string to an integer
+ * @b: the string to be converted
+ * Return: 0 if no numbers in string, converted number otherwise
+ *       -1 on error
  */
-int intatoi(char *a)
+int _erroratoi(char *b)
 {
-	int l = 0;
-	unsigned long int outcome = 0;
+	int c = 0;
+	unsigned long int product = 0;
 
-	if (*a == '+')
-		a++;
-	for (l = 0;  a[l] != '\0'; l++)
+	if (*b == '+')
+		b++;
+	for (c = 0;  b[c] != '\0'; c++)
 	{
-		if (a[l] >= '0' && a[l] <= '9')
+		if (b[c] >= '0' && b[c] <= '9')
 		{
-			outcome *= 10;
-			outcome += (a[l] - '0');
-			if (outcome > INT_MAX)
+			product *= 10;
+			product += (b[c] - '0');
+			if (product > INT_MAX)
 				return (-1);
 		}
 		else
 			return (-1);
 	}
-	return (outcome);
+	return (product);
 }
 
 /**
- * ermes - prints an error message
- * @mes: the parameter & return message struct
- * @sh: string containing specified error type
- * Return: Void
+ * errprint - prints an error message
+ * @mes: the parameter & return info struct
+ * @stris: string containing specified error type
+ * Return: 0 if no numbers in string, converted number otherwise
+ *        -1 on error
  */
-void ermes(mes_t *mes, char *sh)
+void errprint(mes_t *mes, char *stris)
 {
-	sprint(mes->filen);
-	sprint(": ");
-	intbase(mes->count, STDERR_FILENO);
-	sprint(": ");
-	sprint(mes->argv[0]);
-	sprint(": ");
-	sprint(sh);
+	_printsti(mes->fnamed);
+	_printsti(": ");
+	print_base(mes->lines_count, STDERR_FILENO);
+	_printsti(": ");
+	_printsti(mes->argv[0]);
+	_printsti(": ");
+	_printsti(stris);
 }
 
 /**
- * intbase - function prints a decimal (integer) number (base 10)
- * @key_in: a decimal (integer) number (base 10)
- * @fd: the file descriptor
+ * print_base - function prints a decimal (integer) number (base 10)
+ * @key_in: the input
+ * @fd: the file descriptor to write to
  *
  * Return: number of characters printed
  */
-int intbase(int key_in, int fd)
+int print_base(int key_in, int fd)
 {
-	int (*_iputchar)(char) = _putchar;
-	int l, num = 0;
-	unsigned int base, cur;
+	int (*__putchar)(char) = _putchar;
+	int c, counts = 0;
+	unsigned int base, currents;
 
 	if (fd == STDERR_FILENO)
-		_iputchar = _sprint;
+		__putchar = _eputchark;
 	if (key_in < 0)
 	{
 		base = -key_in;
-		_iputchar('-');
-		num++;
+		__putchar('-');
+		counts++;
 	}
 	else
 		base = key_in;
-	cur = base;
-	for (l = 1000000000; l > 1; l /= 10)
+	currents = base;
+	for (c = 1000000000; c > 1; c /= 10)
 	{
-		if (base / l)
+		if (base / c)
 		{
-			_iputchar('0' + cur / l);
-			num++;
+			__putchar('0' + currents / c);
+			counts++;
 		}
-		cur %= l;
+		currents %= c;
 	}
-	_iputchar('0' + cur);
-	num++;
+	__putchar('0' + currents);
+	counts++;
 
-	return (num);
+	return (counts);
 }
 
 /**
- * confun - converter function, a clone of atoi
- * @s: number
- * @u: base
- * @t: argument flags
+ * number_atoi - converter function, a clone of atoi
+ * @num: number
+ * @base: base
+ * @flag: argument flags
  *
  * Return: string
  */
-char *confun(long int s, int u, int t)
+char *number_atoi(long int num, int base, int flag)
 {
-	static char *arr;
-	static char atsa1[50];
+	static char *array;
+	static char m[50];
 	char mark = 0;
-	char *x;
-	unsigned long n = s;
+	char *ptri;
+	unsigned long f = num;
 
-	if (!(t & CONVERT_UNSIGNED) && s < 0)
+	if (!(flag & CONVERT_UNSIGNED) && num < 0)
 	{
-		n = -s;
+		f = -num;
 		mark = '-';
 
 	}
-	arr = t & CONVERT_LOWERCASE ? "0123456789abcdef" : "0123456789ABCDEF";
-	x = &atsa1[49];
-	*x = '\0';
+	array = flag & CONVERT_LOWERCASE ? "0123456789abcdef" : "0123456789ABCDEF";
+	ptri = &m[49];
+	*ptri = '\0';
 
 	do	{
-		*--x = arr[n % u];
-		n /= u;
-	} while (n != 0);
+		*--ptri = array[f % base];
+		f /= base;
+	} while (f != 0);
 
 	if (mark)
-		*--x = mark;
-	return (x);
+		*--ptri = mark;
+	return (ptri);
 }
 
 /**
- * funrep - function replaces first instance of '#' with '\0'
- * @atsa: address of the string to modify
+ * func_replace - function replaces first instance of '#' with '\0'
+ * @mas: address of the string to modify
  *
- * Return: void.
+ * Return: Always 0;
  */
-void funrep(char *atsa)
+void func_replace(char *mas)
 {
-	int l;
+	int c;
 
-	for (l = 0; atsa[l] != '\0'; l++)
-		if (atsa[l] == '#' && (!l || atsa[l - 1] == ' '))
+	for (c = 0; mas[c] != '\0'; c++)
+		if (mas[c] == '#' && (!c || mas[c - 1] == ' '))
 		{
-			atsa[l] = '\0';
+			mas[c] = '\0';
 			break;
 		}
 }

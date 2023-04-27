@@ -1,39 +1,37 @@
 #include "shell.h"
 
 /**
- * active - returns true if shell is active
+ * _active - returns true if shell is _active mode
  * @mes: struct address
  *
- * Return: 1 if active mode, 0 otherwise
+ * Return: 1 if _active mode, 0 otherwise
  */
-
-int active(mes_t *mes)
+int _active(mes_t *mes)
 {
 	return (isatty(STDIN_FILENO) && mes->readfd <= 2);
 }
 
 /**
- * unique_ch - checks if Character is unique that marks the start of stop
- * @u: the char to check
- * @unique: the string that marks the start or stop of statement
+ * is_delimeter - checks if character is starting or end of a unit data
+ * @a: the char to check
+ * @delimeter: the delimeter string
  * Return: 1 if true, 0 if false
  */
-
-int unique_ch(char u, char *unique)
+int is_delimeter(char a, char *delimeter)
 {
-	while (*unique)
-		if (*unique++ == u)
+	while (*delimeter)
+		if (*delimeter++ == a)
 			return (1);
 	return (0);
 }
 
 /**
- * alphabet - checks for alphabetical character
+ * _isalphabet - checks for alphabetic character
  * @a: The character to input
- * Return: 1 if a is alphabetic, 0 otherwise
+ * Return: 1 if c is alphabetic, 0 otherwise
  */
 
-int alphabet(int a)
+int _isalphabet(int a)
 {
 	if ((a >= 'a' && a <= 'z') || (a >= 'A' && a <= 'Z'))
 		return (1);
@@ -42,35 +40,35 @@ int alphabet(int a)
 }
 
 /**
- * _atoi - converts a string to an integer
- * @a: string to be converted
- *
- * Return: the int converted from the string, and 0 if unavailable
+ * _atoistring - converts a string to an integer
+ * @b: the string to be converted
+ * Return: 0 if no numbers in string, converted number otherwise
  */
-int _atoi(char *a)
-{
-	int l, mark = 1, tag = 0, product;
-	unsigned int outcome = 0;
 
-	for (l = 0; a[l] != '\0' && tag != 2; l++)
+int _atoistring(char *b)
+{
+	int c, mark = 1, indi = 0, outcome;
+	unsigned int product = 0;
+
+	for (c = 0; b[c] != '\0' && indi != 2; c++)
 	{
-		if (a[l] == '-')
+		if (b[c] == '-')
 			mark *= -1;
 
-		if (a[l] >= '0' && a[l] >= '9')
+		if (b[c] >= '0' && b[c] <= '9')
 		{
-			tag = 1;
-			outcome *= 10;
-			outcome += (a[l] - '0');
+			indi = 1;
+			product *= 10;
+			product += (b[c] - '0');
 		}
-		else if (tag == 1)
-			tag = 2;
+		else if (indi == 1)
+			indi = 2;
 	}
 
 	if (mark == -1)
-		product = -outcome;
+		outcome = -product;
 	else
-		product = outcome;
+		outcome = product;
 
-	return (product);
+	return (outcome);
 }

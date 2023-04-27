@@ -12,200 +12,203 @@
 #include <fcntl.h>
 #include <errno.h>
 
-#define READ_M_SIZE 1024
-#define WRITE_M_SIZE 1024
-#define M_FLUSH -1
+/* for read/write buffers */
+#define READ_MAS_SIZE 1024
+#define WRITE_BUF_SIZE 1024
+#define BUF_FLUSH -1
 
-#define CMD_NORMAL 0
-#define CMD_ORM	1
-#define CMD_ANDM	2
-#define CMD_CHAIM 3
+/* for command chaining */
+#define CMD_NORM	0
+#define CMD_OR		1
+#define CMD_AND		2
+#define CMD_CHAIN	3
 
-#define CONVERT_LOWERCASE 1
-#define CONVERT_UNSIGNED  2
+/* for number_atoi() */
+#define CONVERT_LOWERCASE	1
+#define CONVERT_UNSIGNED	2
 
-#define USEget_next_line 1
-#define USE_STRTOK  2
+/* 1 if using system getline() */
+#define USE_GETLINE 0
+#define USE_STRTOK 0
 
-#define HISTOR_FILE ".our_history_file"
-#define HISTOR_MAX	4096
+#define HIST_FILE	".simple_shell_nhistory"
+#define HIST_MAX	4096
 
-extern char **environm;
+extern char **environ;
+
 
 /**
- * struct liststri - singly linked list
- * @a: the sber field
+ * struct liststr - singly linked list
+ * @num: the number field
  * @stri: a string
  * @next: points to the next node
  */
-typedef struct liststri
+typedef struct liststr
 {
-	int a;
+	int num;
 	char *stri;
-	struct liststri *next;
+	struct liststr *next;
 } lists_t;
 
 /**
- * struct passmes - contains pseudo-arguments to pass into a function,
+ * struct passmes - contains pseudo-arguements to pass into a function,
  * allowing uniform prototype for function pointer struct
- * @argi: a string generated from get line containing arguments
- * @argv:an array of strings generated from argi
- * @npath: a string npath for the current command
+ * @arg: a string generated from getline containing arguements
+ * @argv:an array of strings generated from arg
+ * @path: a string path for the current command
  * @argc: the argument count
- * @count: the error count
- * @err_s: the error code for exit()s
- * @count_this_line: if on count this line of input
- * @filen: the program filename
- * @envi: linked list local copy of environ
- * @environm: custom modified copy of environ from LL env
- * @nhistory: the history node
- * @nalias: the alias node
- * @envi_changed: on if environ was changed
+ * @lines_count: the error count
+ * @err_code: the error code for exit()s
+ * @linecount_flags: if on count this line of input
+ * @fnamed: the program filenamed
+ * @env: linked list local copy of environm
+ * @environm: custom modified copy of environm from LL env
+ * @nhistory: the nhistory node
+ * @alias: the alias node
+ * @envi_changed: on if environm was changed
  * @status: the return status of the last exec'd command
- * @cmd_m: address of pointer to cmd_m, on if chaining
- * @cmd_m_type: CMD_type ||, &&, ;
+ * @cmd_mas: address of pointer to cmd_mas, on if chaining
+ * @cmd_mas_type: CMD_type ||, &&, ;
  * @readfd: the fd from which to read line input
- * @historyscount: the history line sber count
+ * @histcounts: the nhistory line number count
  */
 typedef struct passmes
 {
-	char *argi;
+	char *arg;
 	char **argv;
-	char *npath;
+	char *path;
 	int argc;
-	unsigned int count;
-	int err_s;
-	int count_this_line;
-	char *filen;
-	lists_t *envi;
+	unsigned int lines_count;
+	int err_code;
+	int linecount_flags;
+	char *fnamed;
+	lists_t *env;
 	lists_t *nhistory;
-	lists_t *nalias;
+	lists_t *alias;
 	char **environm;
 	int envi_changed;
 	int status;
-	char **cmd_m;
-	int cmd_m_type;
+
+	char **cmd_mas;
+	int cmd_mas_type;
 	int readfd;
-	int historyscount;
+	int histcounts;
 } mes_t;
 
-#define MESS_INIT \
+#define INFO_INIT \
 {NULL, NULL, NULL, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, 0, 0, NULL, \
 		0, 0, 0}
 
 /**
- * struct built_in - contains a builtin string and related function
- * @typef: the builtin command flag
+ * struct built_in - contains a built-in string and related function
+ * @type: the builtin command flag
  * @func: the function
  */
 typedef struct built_in
 {
-	char *typef;
+	char *type;
 	int (*func)(mes_t *);
-} builtin_tables;
+} built_in_table;
 
-int active(mes_t *);
-int unique_ch(char, char*);
-int alphabet(int);
-int _atoi(char *);
 
-int main(int, char**);
+int hsh(mes_t *, char **);
+int find_built_in(mes_t *);
+void find_cmd(mes_t *);
+void fork_cmd(mes_t *);
 
-int exe_cmd(mes_t*, char*);
-char *dup_chars(char*, int, int);
-char *find_npath(mes_t*, char*, char*);
+int isit_cmd(mes_t *, char *);
+char *dup_chars(char *, int, int);
+char *find_path(mes_t *, char *, char *);
 
-int _sprint(char);
-void sprint(char *);
-int _sprintfd(char, int);
-int _printsfd(char*, int);
+int loophsh(char **);
 
-char *needle_start_with(const char*, const char*);
-char *dup_string(const char *);
-void _instr(char *);
+void _printsti(char *);
+int _eputchark(char);
+int _putinfd(char a, int fd);
+int _putsinfd(char *stri, int fd);
+
+int _strlen(char *);
+int _strcmp(char *, char *);
+char *start_with(const char *, const char *);
+char *_strcat(char *, char *);
+
+char *_strcpy(char *, char *);
+char *_strdup(const char *);
+void _putsin(char *);
 int _putchar(char);
-
-int terminate(mes_t *);
-int _ccd(mes_t *);
-int _ccdpro(mes_t *);
-
-int intatoi(char *);
-int intbase(int, int);
-void ermes(mes_t*, char*);
-char *confun(long int, int, int);
-void funrep(char *);
-
-char **string_into(char*, char*);
-char **string_into2(char*, char);
-
-int chain_delim(mes_t*, char*, size_t*);
-void chain_status(mes_t*, char*, size_t*, size_t, size_t);
-int replace_aliases(mes_t *);
-int replace_var(mes_t *);
-int re_string(char**, char*);
 
 char *_strncpy(char *, char *, int);
 char *_strncat(char *, char *, int);
-char *locate_xter(char *, char);
+char *_locachr(char *, char);
 
-int historylist(mes_t *);
-int unalias_string(mes_t*, char*);
-int alias_string(mes_t*, char*);
-int wtire_alias(lists_t *);
-int copy_alias(mes_t *);
+char **strtow(char *, char *);
+char **strtow2(char *, char);
 
-int _curenv(mes_t *);
-char *envar(mes_t*, const char*);
-int new_env(mes_t *);
-int re_env(mes_t *);
-int calculate_env_list(mes_t *);
+char *_memset(char *, char, unsigned int);
+void ffree(char **);
+void *_realloc(void *, unsigned int, unsigned int);
 
-char **str_copy_env(mes_t *);
-int rem_env_var(mes_t*, char*);
-int newen(mes_t*, char*, char*);
+int bfree(void **);
+
+int _active(mes_t *);
+int is_delimeter(char, char *);
+int _isalphabet(int);
+int _atoistring(char *);
+
+int _erroratoi(char *);
+void errprint(mes_t *, char *);
+int print_base(int, int);
+char *number_atoi(long int, int, int);
+void func_replace(char *);
+
+int _shellexit(mes_t *);
+int _mycdir(mes_t *);
+int _myhelper(mes_t *);
+
+int _nnhistory(mes_t *);
+int _myaliass(mes_t *);
+
+ssize_t get_minus(mes_t *);
+int _getlinen(mes_t *, char **, size_t *);
+void siginHandler(int);
 
 void clear_mes(mes_t *);
-void set_mes(mes_t*, char**);
-void free_mes(mes_t*, int);
+void set_mes(mes_t *, char **);
+void free_mes(mes_t *, int);
 
-ssize_t enter_buff(mes_t*, char**, size_t*);
-ssize_t line_without_new(mes_t *);
-ssize_t read_m(mes_t*, char*, size_t*);
-int get_next_line(mes_t*, char**, size_t*);
-void block_ctrl_c(int);
+char *_getenvi(mes_t *, const char *);
+int _myenvi(mes_t *);
+int _mysetenvi(mes_t *);
+int _myunsetenvi(mes_t *);
+int populate_envi_lists(mes_t *);
 
-char *ghistory_file(mes_t *);
-int append_file(mes_t *);
-int read_nhistory(mes_t *);
-int add_entry_history(mes_t*, char*, int);
-int resber_history(mes_t *);
+char **get_environm(mes_t *);
+int _unsetenvi(mes_t *, char *);
+int _setenvi(mes_t *, char *, char *);
 
-size_t lists_len(const lists_t *);
+char *get_nhistory_file(mes_t *mes);
+int write_nhistory(mes_t *mes);
+int read_nhistory(mes_t *mes);
+int build_nhistory_list(mes_t *mes, char *mas, int linecounts);
+int renumber_nhistory(mes_t *mes);
+
+lists_t *add_node(lists_t **, const char *, int);
+lists_t *added_node_end(lists_t **, const char *, int);
+size_t print_lists_str(const lists_t *);
+int delete_node_index(lists_t **, unsigned int);
+void free_list(lists_t **);
+
+size_t list_len(const lists_t *);
 char **lists_to_strings(lists_t *);
-size_t write_list(const lists_t *);
-lists_t *return_node_with(lists_t*, char*, char);
-ssize_t locate_index_node(lists_t*, lists_t*);
+size_t print_lists(const lists_t *);
+lists_t *node_starts_prefix(lists_t *, char *, char);
+ssize_t get_index_node(lists_t *, lists_t *);
 
-int hsh(mes_t*, char**);
-int find_builtinc(mes_t *);
-void find_cmdp(mes_t *);
-void run_cmd(mes_t *);
-
-int _strcmp(char*, char*);
-char *_strcat(char*, char*);
-int _strlen(char *);
-char *_strcpy(char*, char*);
-
-lists_t *add_anode(lists_t**, const char*, int);
-lists_t *node_at_end(lists_t**, const char*, int);
-size_t print_str_ele(const lists_t *);
-int node_deletion(lists_t**, unsigned int);
-void free_lists(lists_t **);
-
-int bfrees(void **);
-
-char *mem_cbytes(char*, char, unsigned int);
-void ffrees(char **);
-void *_reallocblock(void*, unsigned int, unsigned int);
+int isit_chain(mes_t *, char *, size_t *);
+void status_chain(mes_t *, char *, size_t *, size_t, size_t);
+int replace_aliass(mes_t *);
+int replace_varss(mes_t *);
+int replace_string(char **, char *);
 
 #endif
+

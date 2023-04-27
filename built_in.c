@@ -1,113 +1,114 @@
 #include "shell.h"
 
 /**
- * historylist - displays the history list, one command by line, starting at 0.
- * @mes: Structure containing potential arguments. Used to maintain
- *        constant function prototype.
+ * _nnhistory - displays the nhistory list, one command by line, preceded
+ *              with line numbers, starting at 0.
+ * @mes: Structure containing potential arguments.
  *  Return: Always 0
  */
-int historylist(mes_t *mes)
+int _nnhistory(mes_t *mes)
 {
-	write_list(mes->nhistory);
+	print_lists(mes->nhistory);
 	return (0);
 }
 
 /**
- * unalias_string - sets alias to string
+ * _unset_aliass - sets alias to string
  * @mes: parameter struct
  * @stri: the string alias
  *
  * Return: Always 0 on success, 1 on error
  */
-int unalias_string(mes_t *mes, char *stri)
+int _unset_aliass(mes_t *mes, char *stri)
 {
-	char *cha, xter;
-	int ber;
+	char *d, a;
+	int reten;
 
-	cha = locate_xter(stri, '=');
-	if (!cha)
+	d = _locachr(stri, '=');
+	if (!d)
 		return (1);
-	xter = *cha;
-	*cha = 0;
-	ber = node_deletion(&(mes->nalias),
-		locate_index_node(mes->nalias, return_node_with(mes->nalias, stri, -1)));
-	*cha = xter;
-	return (ber);
+	a = *d;
+	*d = 0;
+	reten = delete_node_index(&(mes->alias),
+		get_index_node(mes->alias, node_starts_prefix(mes->alias, stri, -1)));
+	*d = a;
+	return (reten);
 }
 
 /**
- * alias_string - sets alias to string
+ * set_aliass - sets alias to string
  * @mes: parameter struct
  * @stri: the string alias
  *
  * Return: Always 0 on success, 1 on error
  */
-int alias_string(mes_t *mes, char *stri)
+int set_aliass(mes_t *mes, char *stri)
 {
-	char *cha;
+	char *d;
 
-	cha = locate_xter(stri, '=');
-	if (!cha)
+	d = _locachr(stri, '=');
+	if (!d)
 		return (1);
-	if (!*++cha)
-		return (unalias_string(mes, stri));
+	if (!*++d)
+		return (_unset_aliass(mes, stri));
 
-	unalias_string(mes, stri);
-	return (node_at_end(&(mes->nalias), stri, 0) == NULL);
+	_unset_aliass(mes, stri);
+	return (added_node_end(&(mes->alias), stri, 0) == NULL);
 }
 
 /**
- * wtire_alias - prints an alias string
- * @anode: the alias node
+ * print_aliass - prints an alias string
+ * @node: the alias node
  *
  * Return: Always 0 on success, 1 on error
  */
-int wtire_alias(lists_t *anode)
+int print_aliass(lists_t *node)
 {
-	char *cha = NULL, *b = NULL;
+	char *d = NULL, *e = NULL;
 
-	if (anode)
+	if (node)
 	{
-		cha = locate_xter(anode->stri, '=');
-		for (b = anode->stri; b <= cha; b++)
-		_putchar(*b);
+		d = _locachr(node->stri, '=');
+		for (e = node->stri; e <= d; e++)
+		_putchar(*e);
 		_putchar('\'');
-		_instr(cha + 1);
-		_instr("'\n");
+		_putsin(d + 1);
+		_putsin("'\n");
 		return (0);
 	}
 	return (1);
 }
 
 /**
- * copy_alias - copy the alias built-in
+ * _myaliass - mimics the alias builtin (man alias)
  * @mes: Structure containing potential arguments.
  *  Return: Always 0
  */
-int copy_alias(mes_t *mes)
+int _myaliass(mes_t *mes)
 {
-	int l = 0;
-	char *cha = NULL;
-	lists_t *anode = NULL;
+	int c = 0;
+	char *d = NULL;
+	lists_t *node = NULL;
 
 	if (mes->argc == 1)
 	{
-		anode = mes->nalias;
-		while (anode)
+		node = mes->alias;
+		while (node)
 		{
-			wtire_alias(anode);
-			anode = anode->next;
+			print_aliass(node);
+			node = node->next;
 		}
 		return (0);
 	}
-	for (l = 1; mes->argv[l]; l++)
+	for (c = 1; mes->argv[c]; c++)
 	{
-		cha = locate_xter(mes->argv[l], '=');
-		if (cha)
-			alias_string(mes, mes->argv[l]);
+		d = _locachr(mes->argv[c], '=');
+		if (d)
+			set_aliass(mes, mes->argv[c]);
 		else
-			wtire_alias(return_node_with(mes->nalias, mes->argv[l], '='));
+			print_aliass(node_starts_prefix(mes->alias, mes->argv[c], '='));
 	}
 
 	return (0);
 }
+

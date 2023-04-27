@@ -1,94 +1,87 @@
 #include "shell.h"
 
 /**
- * **string_into - splits a string into words. Repeat delimiters are ignored
- * @stri: the input string
- * @ds: the delimeter string
- * Return: a pointer to an array of strings, or NULL on failure
+ * _strcpy - copies a string
+ * @dest: the destination
+ * @src: the source
+ *
+ * Return: pointer to destination
  */
-
-char **string_into(char *stri, char *ds)
+char *_strcpy(char *dest, char *src)
 {
-	int l, w, x, y, z = 0;
-	char **a;
+	int c = 0;
 
-	if (stri == NULL || stri[0] == 0)
-		return (NULL);
-	if (!ds)
-		ds = " ";
-	for (l = 0; stri[l] != '\0'; l++)
-		if (!unique_ch(stri[l], ds) && (unique_ch(stri[l + 1], ds) || !stri[l + 1]))
-			z++;
-
-	if (z == 0)
-		return (NULL);
-	a = malloc((1 + z) * sizeof(char *));
-	if (!a)
-		return (NULL);
-	for (l = 0, w = 0; w < z; w++)
+	if (dest == src || src == 0)
+		return (dest);
+	while (src[c])
 	{
-		while (unique_ch(stri[l], ds))
-			l++;
-		x = 0;
-		while (!unique_ch(stri[l + x], ds) && stri[l + x])
-			x++;
-		a[w] = malloc((x + 1) * sizeof(char));
-		if (!a[w])
-		{
-			for (x = 0; x < w; x++)
-				free(a[x]);
-			free(a);
-			return (NULL);
-		}
-		for (y = 0; y < x; y++)
-			a[w][y] = stri[l++];
-		a[w][y] = 0;
+		dest[c] = src[c];
+		c++;
 	}
-	a[w] = NULL;
-	return (a);
+	dest[c] = 0;
+	return (dest);
 }
 
 /**
- * **string_into2 - splits a string into words
- * @stri: the input string
- * @ds: the delimeter
- * Return: a pointer to an array of strings, or NULL on failure
+ * _strdup - duplicates a string
+ * @stri: the string to duplicate
+ *
+ * Return: pointer to the duplicated string
  */
-char **string_into2(char *stri, char ds)
+char *_strdup(const char *stri)
 {
-	int l, w, x, y, z = 0;
-	char **a;
+	int lengt = 0;
+	char *reten;
 
-	if (stri == NULL || stri[0] == 0)
+	if (stri == NULL)
 		return (NULL);
-	for (l = 0; stri[l] != '\0'; l++)
-		if ((stri[l] != ds && stri[l + 1] == ds) ||
-				    (stri[l] != ds && !stri[l + 1]) || stri[l + 1] == ds)
-			z++;
-	if (z == 0)
+	while (*stri++)
+		lengt++;
+	reten = malloc(sizeof(char) * (lengt + 1));
+	if (!reten)
 		return (NULL);
-	a = malloc((1 + z) * sizeof(char *));
-	if (!a)
-		return (NULL);
-	for (l = 0, w = 0; w < z; w++)
+	for (lengt++; lengt--;)
+		reten[lengt] = *--stri;
+	return (reten);
+}
+
+/**
+ * _putsin - prints an input string
+ * @stri: the string to be printed
+ *
+ * Return: Nothing
+ */
+void _putsin(char *stri)
+{
+	int c = 0;
+
+	if (!stri)
+		return;
+	while (stri[c] != '\0')
 	{
-		while (stri[l] == ds && stri[l] != ds)
-			l++;
-		x = 0;
-		while (stri[l + x] != ds && stri[l + x] && stri[l + x] != ds)
-			x++;
-		a[w] = malloc((x + 1) * sizeof(char));
-		if (!a[x])
-		{
-			for (x = 0; x < w; x++)
-				free(a[x]);
-			free(a);
-			return (NULL);
-		}
-		for (y = 0; y < x; y++)
-			a[w][y] = stri[l++];
-		a[w][y] = 0;
+		_putchar(stri[c]);
+		c++;
 	}
-	a[y] = NULL;
-	return (a);
+}
+
+/**
+ * _putchar - writes the character to stdout
+ * @a: The character to print
+ *
+ * Return: On success 1.
+ * On error, -1 is returned, and errno is set appropriately.
+ */
+int _putchar(char a)
+{
+	static int c;
+	static char mas[WRITE_BUF_SIZE];
+
+	if (a == BUF_FLUSH || c >= WRITE_BUF_SIZE)
+	{
+		write(1, mas, c);
+		c = 0;
+	}
+	if (a != BUF_FLUSH)
+		mas[c++] = a;
+	return (1);
 }

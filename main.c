@@ -9,7 +9,7 @@
  */
 int main(int ac, char **av)
 {
-	mes_t mes[] = { MESS_INIT };
+	mes_t mes[] = { INFO_INIT };
 	int fd = 2;
 
 	asm ("mov %1, %0\n\t"
@@ -26,18 +26,18 @@ int main(int ac, char **av)
 				exit(126);
 			if (errno == ENOENT)
 			{
-				sprint(av[0]);
-				sprint(": 0: Can't open ");
-				sprint(av[1]);
-				_sprint('\n');
-				_sprint(M_FLUSH);
+				_printsti(av[0]);
+				_printsti(": 0: Can't open ");
+				_printsti(av[1]);
+				_eputchark('\n');
+				_eputchark(BUF_FLUSH);
 				exit(127);
 			}
 			return (EXIT_FAILURE);
 		}
 		mes->readfd = fd;
 	}
-	calculate_env_list(mes);
+	populate_envi_lists(mes);
 	read_nhistory(mes);
 	hsh(mes, av);
 	return (EXIT_SUCCESS);

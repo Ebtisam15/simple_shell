@@ -1,80 +1,75 @@
 #include "shell.h"
 
 /**
- * needle_start_with - checks if needle starts with haystack
- * @hays: string to search
- * @needs: the substring to find
+ * _strlen - returns the length of a string
+ * @b: the string whose length to check
+ *
+ * Return: integer length of string
+ */
+int _strlen(char *b)
+{
+	int c = 0;
+
+	if (!b)
+		return (0);
+
+	while (*b++)
+		c++;
+	return (c);
+}
+
+/**
+ * _strcmp - performs lexicogarphic comparison of two strangs.
+ * @b1: the first strang
+ * @b2: the second strang
+ *
+ * Return: negative if b1 < b2, positive if b1 > b2, zero if b1 == b2
+ */
+int _strcmp(char *b1, char *b2)
+{
+	while (*b1 && *b2)
+	{
+		if (*b1 != *b2)
+			return (*b1 - *b2);
+		b1++;
+		b2++;
+	}
+	if (*b1 == *b2)
+		return (0);
+	else
+		return (*b1 < *b2 ? -1 : 1);
+}
+
+/**
+ * start_with - checks if needle starts with haystack
+ * @haystacks: string to search
+ * @needles: the substring to find
  *
  * Return: address of next char of haystack or NULL
  */
-char *needle_start_with(const char *hays, const char *needs)
+char *start_with(const char *haystacks, const char *needles)
 {
-	while (*needs)
-		if (*needs++ != *hays++)
+	while (*needles)
+		if (*needles++ != *haystacks++)
 			return (NULL);
-	return ((char *)hays);
+	return ((char *)haystacks);
 }
 
 /**
- * dup_string - duplicates a string
- * @stri: the string to duplicate
+ * _strcat - concatenates two strings
+ * @dest: the destination buffer
+ * @src: the source buffer
  *
- * Return: pointer to the duplicated string
+ * Return: pointer to destination buffer
  */
-char *dup_string(const char *stri)
+char *_strcat(char *dest, char *src)
 {
-	int l = 0;
-	char *r;
+	char *reten = dest;
 
-	if (stri == NULL)
-		return (NULL);
-	while (*stri++)
-		l++;
-	r = malloc(sizeof(char) * (l + 1));
-	if (!r)
-		return (NULL);
-	for (l++; l--;)
-		r[l] = *--stri;
-	return (r);
-}
-
-/**
- * _instr - prints an input string
- * @stri: the string to be printed
- *
- * Return: Nothing
- */
-void _instr(char *stri)
-{
-	int l = 0;
-
-	if (!stri)
-		return;
-	while (stri[l] != '\0')
-	{
-		_putchar(stri[l]);
-		l++;
-	}
-}
-
-/**
- * _putchar - writes the character c to stdout
- * @d: The character to print
- *
- * Return: On success 1.
- * On error, -1 is returned, and errno is set appropriately.
- */
-int _putchar(char d)
-{
-	static int l;
-	static char m[WRITE_M_SIZE];
-
-	if (d == M_FLUSH || l >= WRITE_M_SIZE)
-	{
-		write(1, m, l);
-		l = 0;
-	}
-	if (d != M_FLUSH)
-		m[l++] = d;
-	return (1);
+	while (*dest)
+		dest++;
+	while (*src)
+		*dest++ = *src++;
+	*dest = *src;
+	return (reten);
 }

@@ -1,84 +1,85 @@
 #include "shell.h"
 
 /**
- * _sprint - print the character to the standard Error
- * @k: The character to be printed
- *
- * Return: Always 1 otherwise -1, Error number is set appropriately.
- */
-
-int _sprint(char k)
-{
-	static int l;
-	static char m[WRITE_M_SIZE];
-
-	if (k == M_FLUSH || l >= WRITE_M_SIZE)
-	{
-		write(2, m, l);
-		l = 0;
-	}
-	if (k != M_FLUSH)
-		m[l++] = k;
-	return (1);
-}
-
-/**
- * sprint - prints input string
+ * _printsti - prints an input string
  * @stri: the string to be printed
  *
- * Return: Void.
+ * Return: Nothing
  */
-void sprint(char *stri)
+void _printsti(char *stri)
 {
-	int l = 0;
+	int c = 0;
 
 	if (!stri)
 		return;
-	while (stri[l] != '\0')
+	while (stri[c] != '\0')
 	{
-		_sprint(stri[l]);
-		l++;
+		_eputchark(stri[c]);
+		c++;
 	}
 }
 
 /**
- * _sprintfd - prints an inputed string to a given file descriptor.
- * @k: The character to be printed
- * @fd: A file descriptor
+ * _eputchark - writes the character to stderr
+ * @a: The character to print
  *
- * Return: Always 1 otherwise -1, Error number is set appropriately.
+ * Return: On success 1.
+ * On error, -1 is returned, and errno is set appropriately.
  */
-
-int _sprintfd(char k, int fd)
+int _eputchark(char a)
 {
-	static int l;
-	static char m[WRITE_M_SIZE];
+	static int c;
+	static char m[WRITE_BUF_SIZE];
 
-	if (k == M_FLUSH || l >= WRITE_M_SIZE)
+	if (a == BUF_FLUSH || c >= WRITE_BUF_SIZE)
 	{
-		write(fd, m, l);
-		l = 0;
+		write(2, m, c);
+		c = 0;
 	}
-	if (l != M_FLUSH)
-		m[l++] = k;
+	if (a != BUF_FLUSH)
+		m[c++] = a;
 	return (1);
 }
 
 /**
- * _printsfd - write an inputed string
- * @stri: the string to be printed
- * @fd: A file descriptor
+ * _putinfd - writes the character to given fd
+ * @a: The character to print
+ * @fd: The file descriptor
  *
- * Return: the number of characters inputed
+ * Return: On success 1.
+ * On error, -1 is returned, and errno is set appropriately.
  */
-
-int _printsfd(char *stri, int fd)
+int _putinfd(char a, int fd)
 {
-	int l = 0;
+	static int c;
+	static char m[WRITE_BUF_SIZE];
+
+	if (a == BUF_FLUSH || c >= WRITE_BUF_SIZE)
+	{
+		write(fd, m, c);
+		c = 0;
+	}
+	if (a != BUF_FLUSH)
+		m[c++] = a;
+	return (1);
+}
+
+/**
+ * _putsinfd - prints an input string
+ * @stri: the string to be printed
+ * @fd: the file descriptor
+ *
+ * Return: the number of chars put
+ */
+int _putsinfd(char *stri, int fd)
+{
+	int c = 0;
 
 	if (!stri)
+		return (0);
+	while (*stri)
 	{
-		l += _sprintfd(*stri++, fd);
+		c += _putinfd(*stri++, fd);
 	}
-	return (l);
+	return (c);
 }
