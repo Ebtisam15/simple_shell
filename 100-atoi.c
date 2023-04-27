@@ -1,13 +1,13 @@
 #include "shell.h"
 
 /**
- * _active - returns true if shell is active
+ * active - returns true if shell is active
  * @mes: struct address
  *
  * Return: 1 if active mode, 0 otherwise
  */
 
-int _active(mes_t *mes)
+int active(mes_t *mes)
 {
 	return (isatty(STDIN_FILENO) && mes->readfd <= 2);
 }

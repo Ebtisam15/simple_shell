@@ -9,60 +9,68 @@
  */
 char *_strncpy(char *dest, char *src, int n)
 {
-	int x = 0;
+	int x, y;
+	char *a = dest;
 
-	while (x < n && src[x] != '\0')
+	x = 0;
+	while (src[x] != '\0' && x < n - 1)
 	{
 		dest[x] = src[x];
 		x++;
 	}
-	while (x < n)
+	if (x < n)
 	{
-		dest[x] = '\0';
-		x++;
+		y = x;
+		while (x < n)
+		{
+			dest[y] = '\0';
+			y++;
+		}
 	}
-	return (dest);
+	return (a);
 }
 
 /**
- * _strncat - concatenates two strings.
- * @dest: the initial string
- * @src: the additional string
- * @n: number of charaters to be added to the initial string.
+ * _strncat - concatenates two strings
+ * @b: the initial string
+ * @c: the additional string
+ * @l: number of charaters in a string
+ *
  * Return: the resulting string.
  */
 
-char *_strncat(char *dest, char *src, int n)
+char *_strncat(char *b, char *c, int l)
 {
 	int x = 0;
 	int y = 0;
+	char *a = b;
 
-	while (dest[x] != '\0')
-	{
+	while (b[x] != '\0')
 		x++;
-	}
-	while (y < n && src[y] != '\0')
+	while (c[y] != '\0' && y < l)
 	{
-		dest[x] = src[y];
+		b[x] = c[y];
 		x++;
 		y++;
 	}
-	dest[x] = '\0';
-	return (dest);
+	if (y < l)
+		b[x] = '\0';
+	return (a);
 }
 
 /**
- **locate_xter - locates a character in a string
- *@s: the string to be parsed
- *@c: the character to look for
- *Return: (s) a pointer to the memory area s
+ * locate_xter - locates a character in a string
+ * @a: the string to be parsed
+ * @k: the character to look for
+ * Return: a pointer to the memory area.
  */
-char *locate_xter(char *s, char c)
+
+char *locate_xter(char *a, char k)
 {
 	do {
-		if (*s == c)
-			return (s);
-	} while (*s++ != '\0');
+		if (*a == k)
+			return (a);
+	} while (*a++ != '\0');
 
 	return (NULL);
 }

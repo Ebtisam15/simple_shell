@@ -2,24 +2,27 @@
 
 /**
  * _strcmp - compare string values
- * @s1: input value
- * @s2: input value
- * Return: s1[i] - s2[i]
+ * @a1: input value
+ * @a2: input value
+ * Return: comparison
  */
 
-int _strcmp(char *s1, char *s2)
+int _strcmp(char *a1, char *a2)
 {
-	int x = 0;
 
-	while (s1[x] != '\0' && s2[x] != '\0')
+	while (*a1 && *a2)
 	{
-		if (s1[x] != s2[x])
+		if (*a1 != *a2)
 		{
-			return (s1[x] - s2[x]);
+			return (*a1 - *a2);
 		}
-		x++;
+		a1++;
+		a2++;
 	}
-	return (0);
+	if (*a1 == *a2)
+		return (0);
+	else
+		return (*a1 < *a2 ? -1 : 1);
 }
 
 /**
@@ -30,17 +33,14 @@ int _strcmp(char *s1, char *s2)
  */
 char *_strcat(char *dest, char *src)
 {
-	int dl = 0;
-	int sl = 0;
-	int x;
+	char *r = dest;
 
-	for (x = 0 ; dest[x] != '\0' ; x++)
-		dl++;
-	for (x = 0 ; src[x] != '\0' ; x++)
-		sl++;
-	for (x = 0 ; x <= sl; x++)
-		dest[dl + x] = src[x];
-	return (dest);
+	while (*dest)
+		dest++;
+	while (*src)
+		*dest++ = *src++;
+	*dest = *src;
+	return (r);
 }
 
 /**
@@ -72,17 +72,15 @@ int _strlen(char *a)
 
 char *_strcpy(char *dest, char *src)
 {
-	int x = 0;
-	int y = 0;
+	int l = 0;
 
-	while (*(src + x) != '\0')
+	if (dest == src || src == 0)
+		return (dest);
+	while (src[l])
 	{
-		x++;
+		dest[l] = src[l];
+		l++;
 	}
-	for ( ; y < x; y++)
-	{
-		dest[y] = src[y];
-	}
-	dest[x] = '\0';
+	dest[l] = 0;
 	return (dest);
 }

@@ -1,11 +1,10 @@
 #include "shell.h"
 
 /**
- * _sprint - writes the character k to stderr
- * @k: The character to print
+ * _sprint - print the character to the standard Error
+ * @k: The character to be printed
  *
- * Return: On success 1.
- * On error, -1 is returned, and errno is set appropriately.
+ * Return: Always 1 otherwise -1, Error number is set appropriately.
  */
 
 int _sprint(char k)
@@ -24,32 +23,30 @@ int _sprint(char k)
 }
 
 /**
- * sprint - prints an input string
- * @h: the string to be printed
+ * sprint - prints input string
+ * @stri: the string to be printed
  *
- * Return: Nothing
+ * Return: Void.
  */
-
-void sprint(char *h)
+void sprint(char *stri)
 {
-	int j = 0;
+	int l = 0;
 
-	if (!h)
+	if (!stri)
 		return;
-	while (h[j] != '\0')
+	while (stri[l] != '\0')
 	{
-		_sprint(h[j]);
-		j++;
+		_sprint(stri[l]);
+		l++;
 	}
 }
 
 /**
- * _sprintfd - writes the character k to given fd
- * @k: The character to print
- * @fd: The filedescriptor to write to
+ * _sprintfd - prints an inputed string to a given file descriptor.
+ * @k: The character to be printed
+ * @fd: A file descriptor
  *
- * Return: On success 1.
- * On error, -1 is returned, and errno is set appropriately.
+ * Return: Always 1 otherwise -1, Error number is set appropriately.
  */
 
 int _sprintfd(char k, int fd)
@@ -62,28 +59,26 @@ int _sprintfd(char k, int fd)
 		write(fd, m, l);
 		l = 0;
 	}
-	if (k != M_FLUSH)
+	if (l != M_FLUSH)
 		m[l++] = k;
 	return (1);
 }
 
 /**
- * _printsfd - prints an input string
- * @h: the string to be printed
- * @fd: the filedescriptor to write to
+ * _printsfd - write an inputed string
+ * @stri: the string to be printed
+ * @fd: A file descriptor
  *
- * Return: the number of chars put
+ * Return: the number of characters inputed
  */
 
-int _printsfd(char *h, int fd)
+int _printsfd(char *stri, int fd)
 {
 	int l = 0;
 
-	if (!h)
-		return (0);
-	while (*h)
+	if (!stri)
 	{
-		l += _sprintfd(*h++, fd);
+		l += _sprintfd(*stri++, fd);
 	}
 	return (l);
 }
